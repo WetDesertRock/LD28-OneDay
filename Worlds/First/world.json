@@ -1,11 +1,11 @@
 {
-    "size": 24,
-    "spawnpoint": [4,4],
-    "maxhistory": 6,
+    "size": 48,
+    "spawnpoint": [6,1],
+    "maxhistory": -1,
     "entities": [
         {
             "type":"levelend",
-            "pos": [6,6]
+            "pos": [6,10]
         }
     ]
 }

@@ -61,7 +61,7 @@ class Player(object):
     
             if not self.isShadow:
                 self.history.append(d)
-                if len(self.history)-1 == self.maxhistory:
+                if self.maxhistory != -1 and len(self.history)-1 == self.maxhistory:
                     self.isShadow = True
                 
                 return True

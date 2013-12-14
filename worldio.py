@@ -41,10 +41,10 @@ def readWorld(name, World, gm=None):
 
 def writeWorld(world):
     retstr = ""
-    for y in xrange(world.gridsize):
+    for y in xrange(len(world.grid)):
         lno = "%s: "%str(y).rjust(2)
         charlist = []
-        for x in xrange(world.gridsize):
+        for x in xrange(len(world.grid)):
             if world.grid[x][y] == MAT_SOLID:
                 charlist.append("&")
             else:
