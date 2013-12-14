@@ -29,7 +29,7 @@
 import pygame, time
 
 pygame.display.init()
-screen = pygame.display.set_mode((600, 600))
+screen = pygame.display.set_mode((576, 576))
 Clock = pygame.time.Clock()
 
 running = True
@@ -40,9 +40,9 @@ D_RIGHT = 2
 D_LEFT = -2
 
 class World(object):
-    def __init__(self,gsize):
-        self.gridsize = gsize
-        
+    def __init__(self,gsize,sp):
+        self.gridsize = gsize #Avaliable sizes: 1, 2, 3, 4, 6, 8, 9, 12, 16, 18, 24, 32, 36, 48, 64, 72, 96, 144, 192, 288
+        self.spawnpoint = sp
 
 class Player(object):
     def __init__(self):
