@@ -3,7 +3,7 @@ import os, json
 from consts import *
 from gameEntities import *
 
-WORLDSPATH = os.path.join('.','Worlds')
+WORLDSPATH = os.path.join('.','Levels')
 
 def readWorld(name, World, gm=None):
     with open(os.path.join(WORLDSPATH,name,"world.json"),'r') as conf:
