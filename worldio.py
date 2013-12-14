@@ -1,11 +1,10 @@
 import os, json
 
-from gameClasses import World
 from consts import *
 
 WORLDSPATH = os.path.join('.','Worlds')
 
-def readWorld(name):
+def readWorld(name,World):
     with open(os.path.join(WORLDSPATH,name,"world.json"),'r') as conf:
         options = json.loads(conf.read())
     
@@ -21,10 +20,8 @@ def readWorld(name):
             
             lno,line = line.strip().split(':')
             y = int(lno)
-            print line
             line = line.replace(' ','').replace(',','')
             for x,c in enumerate(line):
-                print x,y
                 if c == emptychar:
                     mat = MAT_EMPTY
                 elif c == solidchar:

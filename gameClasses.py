@@ -1,5 +1,6 @@
 import pygame
 from consts import *
+from worldio import *
 
 class World(object):
     def __init__(self,gsize,sp,mh):
@@ -76,3 +77,33 @@ class Player(object):
         if self.isShadow:
             localtick = self.world.ticks%self.maxhistory
             self.seek(localtick)
+
+class GameManager(object):
+    def __init__(self,levels):
+        self.surf = pygame.Surface((576, 576))
+        self.levels = levels
+        self.curworld = readWorld(levels[0],World)
+        self.curplr = Player(self.curworld)
+        self.players = [self.curplr]
+    
+    def move(self,dir):
+        move_succeeded = self.curplr.move(dir) 
+        if not move_succeeded:
+            return False
+    
+        self.curworld.tick()
+    
+        if self.curplr.isShadow:
+            self.curplr = Player(self.curworld)
+            self.players.append(self.curplr)
+    
+        for plr in self.players:
+            plr.sync()
+    
+        return True
+    
+    def draw(self):
+        self.surf.fill((0,0,0))
+        self.curworld.draw(self.surf)
+        for plr in self.players:
+            plr.draw(self.surf,plr is self.curplr)

@@ -10,30 +10,7 @@ Clock = pygame.time.Clock()
 
 running = True
 
-# world = World(24,(2,2),10)
-world = readWorld("First")
-curplr = Player(world)
-players = [curplr]
-
-# world.grid[5][4] = MAT_SOLID
-
-def moveCurPlayer(d):
-    global curplr, players, world
-    move_succeeded = curplr.move(d) 
-    if not move_succeeded:
-        return False
-    
-    world.tick()
-    pygame.display.set_caption(str(world.ticks))
-    
-    if curplr.isShadow:
-        curplr = Player(world)
-        players.append(curplr)
-    
-    for plr in players:
-        plr.sync()
-    
-    return True
+gm = GameManager(["First"])
 
 while running:
     Clock.tick(60)
@@ -51,17 +28,15 @@ while running:
             print "Wrote Screenshot_%d.png" % stime
         
         elif event.key == pygame.K_UP:
-            moveCurPlayer(D_UP)
+            gm.move(D_UP)
         elif event.key == pygame.K_DOWN:
-            moveCurPlayer(D_DOWN)
+            gm.move(D_DOWN)
         elif event.key == pygame.K_RIGHT:
-            moveCurPlayer(D_RIGHT)
+            gm.move(D_RIGHT)
         elif event.key == pygame.K_LEFT:
-            moveCurPlayer(D_LEFT)
+            gm.move(D_LEFT)
     
-    screen.fill((0,0,0))
-    world.draw(screen)
-    for plr in players:
-        plr.draw(screen,plr is curplr)
+    gm.draw()
+    screen.blit(gm.surf,(0,0))
     
     pygame.display.update()
