@@ -5,7 +5,7 @@ from gameEntities import *
 
 WORLDSPATH = os.path.join('.','Worlds')
 
-def readWorld(name, World, gm):
+def readWorld(name, World, gm=None):
     with open(os.path.join(WORLDSPATH,name,"world.json"),'r') as conf:
         options = json.loads(conf.read())
     
@@ -14,9 +14,10 @@ def readWorld(name, World, gm):
     emptychar = options.get("emptychar","-")
     solidchar = options.get("solidchar","&")
     
-    for ent in options["entities"]:
-        if ent['type'] == "levelend":
-            LevelFinish(gm,tuple(ent['pos']))
+    if gm != None:
+        for ent in options["entities"]:
+            if ent['type'] == "levelend":
+                LevelFinish(gm,tuple(ent['pos']))
     
     with open(os.path.join(WORLDSPATH,name,"grid.txt"),'r') as gridfile:
         for line in gridfile:
@@ -35,3 +36,21 @@ def readWorld(name, World, gm):
                 world.grid[x][y] = mat
     
     return world
+
+def writeWorld(world):
+    retstr = ""
+    for y in xrange(world.gridsize):
+        lno = "%s: "%str(y).rjust(2)
+        charlist = []
+        for x in xrange(world.gridsize):
+            if world.grid[x][y] == MAT_SOLID:
+                charlist.append("&")
+            else:
+                charlist.append("-")
+        
+        line = " ".join(charlist)
+        
+        retstr += lno+line+"\n"
+    
+    return retstr
+            
