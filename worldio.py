@@ -15,6 +15,7 @@ def readWorld(name, World, gm=None):
     solidchar = options.get("solidchar","&")
 
     if gm != None:
+        gm.text = options.get("text",[])
         for ent in options["entities"]:
             if ent['type'] == "levelend":
                 LevelFinish(gm,tuple(ent['pos']))
@@ -40,7 +41,8 @@ def readWorld(name, World, gm=None):
     return world
 
 def writeWorld(world):
-    retstr = ""
+    retstr = "#   "+"".join(str(i).ljust(20) for i in xrange(1+len(world.grid)/10))
+    retstr += "\n#   "+" ".join(str(i%10) for i in xrange(len(world.grid))) +"\n"
     for y in xrange(len(world.grid)):
         lno = "%s: "%str(y).rjust(2)
         charlist = []

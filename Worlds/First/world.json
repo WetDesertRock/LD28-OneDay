@@ -2,6 +2,7 @@
     "size": 48,
     "spawnpoint": [6,1],
     "maxhistory": -1,
+    "text": ["Welcome to You Only Got One Day!","You move with your arrow keys.","Try this now by moving to the green box"],
     "entities": [
         {
             "type":"levelend",
