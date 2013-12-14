@@ -36,12 +36,13 @@ class World(object):
         
         
 class Player(object):
-    def __init__(self, world, generation=0):
+    def __init__(self, world, gamemanager, generation=0):
         self.world = world
         self.curpos = world.spawnpoint
         self.history = [self.curpos]
         self.maxhistory = self.world.maxhistory
         self.isShadow = False
+        self.gm = gamemanager
         self.generation = generation
     
     def move(self,d):
@@ -55,6 +56,9 @@ class Player(object):
             return False
         else:
             self.curpos = (nx,ny)
+            
+            self.gm.eventManager.call("plrmove",(self,not self.isShadow))
+    
             if not self.isShadow:
                 self.history.append(d)
                 if len(self.history)-1 == self.maxhistory:
@@ -76,9 +80,10 @@ class Player(object):
         move = self.history[i]
         if type(move) == tuple:
             self.curpos = move
+            self.gm.eventManager.call("plrmove",(self,self==self.gm.curplr))
         else:
             self.move(self.history[i])
-    
+            
     def sync(self):
         if self.isShadow:
             localtick = self.world.ticks%self.maxhistory
@@ -109,7 +114,7 @@ class GameManager(object):
         self.surf = pygame.Surface((576, 576))
         self.levels = levels
         self.curworld = readWorld(levels[0],World)
-        self.curplr = Player(self.curworld)
+        self.curplr = Player(self.curworld,self)
         self.players = [self.curplr]
         self.eventManager = GameEventManager()
     
@@ -120,17 +125,17 @@ class GameManager(object):
     
         self.curworld.tick()
         
-        self.eventManager.call("plrmove",(self.curplr,True))
+#         self.eventManager.call("plrmove",(self.curplr,True))
         
         if self.curplr.isShadow:
             oldgen = self.curplr.generation
-            self.curplr = Player(self.curworld,oldgen+1)
+            self.curplr = Player(self.curworld, self,oldgen+1)
             self.players.append(self.curplr)
     
         for plr in self.players:
             plr.sync()
         
-    
+        self.eventManager.call("tickdone",(self.curworld,self))
         return True
     
     def draw(self):
