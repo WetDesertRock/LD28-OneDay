@@ -39,6 +39,7 @@ while running:
         elif event.key == pygame.K_LEFT:
             gm.move(D_LEFT)
     
+    screen.fill((0,0,0))
     gm.draw()
     screen.blit(gm.surf,(0,0))
     for i,line in enumerate(gm.text):
