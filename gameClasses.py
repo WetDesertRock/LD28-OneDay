@@ -70,7 +70,6 @@ class Player(object):
     
     def seek(self, i):
         i = min(len(self.history)-1,max(0,i)) #Constrain
-        print i
         self.curpos = self.history[i]
     
     def sync(self):
