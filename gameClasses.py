@@ -55,11 +55,12 @@ class Player(object):
             return False
         else:
             self.curpos = (nx,ny)
-            self.history.append(self.curpos)
-            if not self.isShadow and len(self.history)-1 == self.maxhistory:
-                self.isShadow = True
+            if not self.isShadow:
+                self.history.append(d)
+                if len(self.history)-1 == self.maxhistory:
+                    self.isShadow = True
                 
-            return True
+                return True
     
     def draw(self,surf,iscurrent):
         if iscurrent:
@@ -72,7 +73,11 @@ class Player(object):
     
     def seek(self, i):
         i = min(len(self.history)-1,max(0,i)) #Constrain
-        self.curpos = self.history[i]
+        move = self.history[i]
+        if type(move) == tuple:
+            self.curpos = move
+        else:
+            self.move(self.history[i])
     
     def sync(self):
         if self.isShadow:
