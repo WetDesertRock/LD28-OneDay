@@ -36,12 +36,13 @@ class World(object):
         
         
 class Player(object):
-    def __init__(self, world):
+    def __init__(self, world, generation=0):
         self.world = world
         self.curpos = world.spawnpoint
         self.history = [self.curpos]
         self.maxhistory = self.world.maxhistory
         self.isShadow = False
+        self.generation = generation
     
     def move(self,d):
         nx,ny = self.curpos
@@ -64,7 +65,7 @@ class Player(object):
         if iscurrent:
             col = COL_PLAYER
         else:
-            col = COL_PPLAYER
+            col = COL_PPLAYER[self.generation%len(COL_PPLAYER)]
         cx,cy = self.curpos
         gs = self.world.gridsize
         pygame.draw.rect(surf,col,((cx*gs,cy*gs),(gs,gs)))
@@ -117,7 +118,8 @@ class GameManager(object):
         self.eventManager.call("plrmove",(self.curplr,True))
         
         if self.curplr.isShadow:
-            self.curplr = Player(self.curworld)
+            oldgen = self.curplr.generation
+            self.curplr = Player(self.curworld,oldgen+1)
             self.players.append(self.curplr)
     
         for plr in self.players:
