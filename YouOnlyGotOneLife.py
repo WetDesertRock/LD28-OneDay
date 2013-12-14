@@ -148,32 +148,32 @@ def moveCurPlayer(d):
     return True
 
 while running:
-	Clock.tick(60)
-	event = pygame.event.poll()
-	if event.type == pygame.QUIT:
-		running = False
-		
-	elif event.type == pygame.KEYDOWN:
-		if event.key == pygame.K_ESCAPE:
-			running = False
-		
-		elif event.key == pygame.K_s:
-			stime = time.time()
-			pygame.image.save(screen, "Screenshot_%d.png" % stime)
-			print "Wrote Screenshot_%d.png" % stime
-		
-		elif event.key == pygame.K_UP:
-		    moveCurPlayer(D_UP)
-		elif event.key == pygame.K_DOWN:
-		    moveCurPlayer(D_DOWN)
-		elif event.key == pygame.K_RIGHT:
-		    moveCurPlayer(D_RIGHT)
-		elif event.key == pygame.K_LEFT:
-		    moveCurPlayer(D_LEFT)
-	
-	screen.fill((0,0,0))
-	world.draw(screen)
-	for plr in players:
-		plr.draw(screen,plr is curplr)
-	
-	pygame.display.update()
+    Clock.tick(60)
+    event = pygame.event.poll()
+    if event.type == pygame.QUIT:
+        running = False
+        
+    elif event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_ESCAPE:
+            running = False
+        
+        elif event.key == pygame.K_s:
+            stime = time.time()
+            pygame.image.save(screen, "Screenshot_%d.png" % stime)
+            print "Wrote Screenshot_%d.png" % stime
+        
+        elif event.key == pygame.K_UP:
+            moveCurPlayer(D_UP)
+        elif event.key == pygame.K_DOWN:
+            moveCurPlayer(D_DOWN)
+        elif event.key == pygame.K_RIGHT:
+            moveCurPlayer(D_RIGHT)
+        elif event.key == pygame.K_LEFT:
+            moveCurPlayer(D_LEFT)
+    
+    screen.fill((0,0,0))
+    world.draw(screen)
+    for plr in players:
+        plr.draw(screen,plr is curplr)
+    
+    pygame.display.update()
