@@ -140,11 +140,10 @@ class GameManager(object):
     def draw(self):
         self.surf.fill((0,0,0))
         self.curworld.draw(self.surf)
+        self.eventManager.call("draw",(self.surf,))
         for plr in self.players:
             plr.draw(self.surf,plr is self.curplr)
         
-        self.eventManager.call("draw",(self.surf,))
-    
     def winlevel(self):
         self.eventManager.clearCallbacks()
         self.players = []
