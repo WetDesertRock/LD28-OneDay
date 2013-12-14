@@ -1,5 +1,6 @@
 import pygame
 from consts import *
+from gameFunctions import *
 
 class LevelFinish(object):
     def __init__(self, gm, pos):
@@ -13,9 +14,8 @@ class LevelFinish(object):
             self.gm.winlevel()
     
     def draw(self, surf):
-        x,y = self.pos
         gs = self.gm.curworld.gridsize
-        pygame.draw.rect(surf,COL_GAMEEND,((x*gs,y*gs),(gs,gs)))
+        pygame.draw.rect(surf,COL_GAMEEND,getSquareRect(self.pos,gs,7))
 
 class Switch(object):
     def __init__(self, gm, pos, tpos, oneuse=False):
@@ -49,6 +49,5 @@ class Switch(object):
         self.resetstate()
     
     def draw(self, surf):
-        x,y = self.pos
         gs = self.gm.curworld.gridsize
-        pygame.draw.rect(surf,COL_SWITCH,((x*gs,y*gs),(gs,gs)))
+        pygame.draw.rect(surf,COL_SWITCH,getSquareRect(self.pos,gs,5))
