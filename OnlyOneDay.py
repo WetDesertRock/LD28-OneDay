@@ -4,9 +4,12 @@ from consts import *
 from gameClasses import *
 from worldio import *
 
+pygame.font.init()
+
 pygame.display.init()
-screen = pygame.display.set_mode((576, 576))
+screen = pygame.display.set_mode((576, 650))
 Clock = pygame.time.Clock()
+mainfont = pygame.font.SysFont("Verdana", 14)
 
 running = True
 
@@ -38,5 +41,9 @@ while running:
     
     gm.draw()
     screen.blit(gm.surf,(0,0))
+    for i,line in enumerate(gm.text):
+        yoffset = i*mainfont.get_height() - 4
+        screen.blit(mainfont.render(line, 0, (255,255,255)),(20,590+yoffset))
+        
     
     pygame.display.update()

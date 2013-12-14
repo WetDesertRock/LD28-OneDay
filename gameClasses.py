@@ -118,6 +118,7 @@ class GameManager(object):
         self.worldindex = 0
         self.curplr = Player(self.curworld,self)
         self.players = [self.curplr]
+        self.text = []
     
     def move(self,dir):
         move_succeeded = self.curplr.move(dir) 
