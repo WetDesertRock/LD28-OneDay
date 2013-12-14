@@ -113,10 +113,11 @@ class GameManager(object):
     def __init__(self,levels):
         self.surf = pygame.Surface((576, 576))
         self.levels = levels
-        self.curworld = readWorld(levels[0],World)
+        self.eventManager = GameEventManager()
+        self.curworld = readWorld(levels[0],World,self)
+        self.worldindex = 0
         self.curplr = Player(self.curworld,self)
         self.players = [self.curplr]
-        self.eventManager = GameEventManager()
     
     def move(self,dir):
         move_succeeded = self.curplr.move(dir) 
@@ -135,7 +136,7 @@ class GameManager(object):
         for plr in self.players:
             plr.sync()
         
-        self.eventManager.call("tickdone",(self.curworld,self))
+        self.eventManager.call("tickdone",(self.curworld,))
         return True
     
     def draw(self):
@@ -143,3 +144,14 @@ class GameManager(object):
         self.curworld.draw(self.surf)
         for plr in self.players:
             plr.draw(self.surf,plr is self.curplr)
+        
+        self.eventManager.call("draw",(self.surf,))
+    
+    def winlevel(self):
+        self.eventManager.clearCallbacks()
+        self.players = []
+        self.worldindex += 1
+        self.curworld = readWorld(self.levels[self.worldindex],World,self)
+        self.curplr = Player(self.curworld,self)
+        self.players = [self.curplr]
+        

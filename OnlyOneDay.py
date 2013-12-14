@@ -10,11 +10,7 @@ Clock = pygame.time.Clock()
 
 running = True
 
-gm = GameManager(["First"])
-def evtplrmove(plr,iscurrent):
-    print plr.curpos
-    
-gm.eventManager.registerCallback("plrmove",evtplrmove)
+gm = GameManager(["First","Second"])
 
 while running:
     Clock.tick(60)
