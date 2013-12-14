@@ -112,13 +112,15 @@ class GameEventManager(object):
 class GameManager(object):
     def __init__(self,levels):
         self.surf = pygame.Surface((576, 576))
-        self.levels = levels
         self.eventManager = GameEventManager()
-        self.curworld = readWorld(levels[0],World,self)
+        self.text = []
+        
+        self.levels = levels
         self.worldindex = 0
+        self.curworld = readWorld(levels[0],World,self)
+        
         self.curplr = Player(self.curworld,self)
         self.players = [self.curplr]
-        self.text = []
     
     def move(self,dir):
         move_succeeded = self.curplr.move(dir) 
