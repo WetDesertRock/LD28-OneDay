@@ -78,6 +78,26 @@ class Player(object):
             localtick = self.world.ticks%self.maxhistory
             self.seek(localtick)
 
+class GameEventManager(object):
+    def __init__(self):
+        self.eventcallbacks = {}
+    
+    def call(self, evt, args):
+        if evt not in self.eventcallbacks:
+            return
+            
+        for callback in self.eventcallbacks.get(evt,[]):
+            callback(*args)
+    
+    def registerCallback(self, evt, callback):
+        if evt not in self.eventcallbacks:
+            self.eventcallbacks[evt] = []
+        
+        self.eventcallbacks[evt].append(callback)
+    
+    def clearCallbacks(self):
+        self.eventcallbacks = {}
+
 class GameManager(object):
     def __init__(self,levels):
         self.surf = pygame.Surface((576, 576))
@@ -85,6 +105,7 @@ class GameManager(object):
         self.curworld = readWorld(levels[0],World)
         self.curplr = Player(self.curworld)
         self.players = [self.curplr]
+        self.eventManager = GameEventManager()
     
     def move(self,dir):
         move_succeeded = self.curplr.move(dir) 
@@ -92,13 +113,16 @@ class GameManager(object):
             return False
     
         self.curworld.tick()
-    
+        
+        self.eventManager.call("plrmove",(self.curplr,True))
+        
         if self.curplr.isShadow:
             self.curplr = Player(self.curworld)
             self.players.append(self.curplr)
     
         for plr in self.players:
             plr.sync()
+        
     
         return True
     
