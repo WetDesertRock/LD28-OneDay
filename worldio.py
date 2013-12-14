@@ -13,11 +13,13 @@ def readWorld(name, World, gm=None):
     
     emptychar = options.get("emptychar","-")
     solidchar = options.get("solidchar","&")
-    
+
     if gm != None:
         for ent in options["entities"]:
             if ent['type'] == "levelend":
                 LevelFinish(gm,tuple(ent['pos']))
+            elif ent['type'] == "switch":
+                Switch(gm,tuple(ent['pos']),tuple(ent['target']),ent['oneuse'])
     
     with open(os.path.join(WORLDSPATH,name,"grid.txt"),'r') as gridfile:
         for line in gridfile:

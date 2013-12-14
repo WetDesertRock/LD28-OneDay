@@ -16,3 +16,39 @@ class LevelFinish(object):
         x,y = self.pos
         gs = self.gm.curworld.gridsize
         pygame.draw.rect(surf,COL_GAMEEND,((x*gs,y*gs),(gs,gs)))
+
+class Switch(object):
+    def __init__(self, gm, pos, tpos, oneuse=False):
+        self.pos = pos
+        self.targetblock = tpos
+        self.gm = gm
+        self.state = False
+        self.oneuse = oneuse
+        self.gm.eventManager.registerCallback("tickdone",self.tickdone)
+        self.gm.eventManager.registerCallback("draw",self.draw)
+    
+    def switchstate(self,state):
+        x,y = self.targetblock
+        if state:
+            self.gm.curworld.grid[x][y] = MAT_EMPTY
+        else:
+            self.gm.curworld.grid[x][y] = MAT_SOLID
+    
+    def resetstate(self):
+        if self.oneuse:
+            return
+        else:
+            self.switchstate(False)
+        
+    def tickdone(self,world):
+        for plr in self.gm.players:
+            if plr.curpos == self.pos:
+                self.switchstate(True)
+                return
+        
+        self.resetstate()
+    
+    def draw(self, surf):
+        x,y = self.pos
+        gs = self.gm.curworld.gridsize
+        pygame.draw.rect(surf,COL_SWITCH,((x*gs,y*gs),(gs,gs)))

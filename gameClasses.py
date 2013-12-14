@@ -126,8 +126,6 @@ class GameManager(object):
     
         self.curworld.tick()
         
-#         self.eventManager.call("plrmove",(self.curplr,True))
-        
         if self.curplr.isShadow:
             oldgen = self.curplr.generation
             self.curplr = Player(self.curworld, self,oldgen+1)
