@@ -205,7 +205,7 @@ class Game(object):
         self.menufont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 20)
         self.view = VIEW_MAINMENU
         self.gm = None
-        self.mainmenu_buttons = {"play":pygame.rect.Rect((100,250),(150,60)),"reset":pygame.rect.Rect((330,330),(150,60))}
+        self.mainmenu_buttons = {"play":pygame.rect.Rect((100,350),(150,70)),"reset":pygame.rect.Rect((330,430),(150,70))}
     
     def handleEvents(self, events):
         for event in events:
@@ -253,7 +253,7 @@ class Game(object):
                 pygame.draw.rect(surf,(255,255,255),self.mainmenu_buttons[button].inflate(3,3),3)
                 pygame.draw.rect(surf,(255,255,255),self.mainmenu_buttons[button].inflate(-8,-8),1)
                 
-                tsurf = render_textrect(text,self.menufont,self.mainmenu_buttons[button], COL_BTEXT, (0,0,0,0),1)
+                tsurf = render_textrect(text,self.menufont,self.mainmenu_buttons[button].inflate(-10,-10), COL_BTEXT, (0,0,0,0),1)
                 surf.blit(tsurf,self.mainmenu_buttons[button])
             
         elif self.view == VIEW_GAME:
@@ -268,7 +268,7 @@ class Game(object):
     
             if gm.curworld.maxhistory != -1:
                 hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
-                surf.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
+                surf.blit(self.dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
             if gm.curworld.maxlives > 0:
                 livesleft = gm.curworld.maxlives - gm.curplr.generation-1
-                surf.blit(dayfont.render("Lives Left: %d"%livesleft,1,COL_TEXT),(10,25))
+                surf.blit(self.dayfont.render("Lives Left: %d"%livesleft,1,COL_TEXT),(10,25))
