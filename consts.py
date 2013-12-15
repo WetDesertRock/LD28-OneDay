@@ -2,6 +2,7 @@ D_UP = -1
 D_DOWN = 1
 D_RIGHT = 2
 D_LEFT = -2
+D_NONE = 3
 
 MAT_SOLID = 1
 MAT_EMPTY = 0

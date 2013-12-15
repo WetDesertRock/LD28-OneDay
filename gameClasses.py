@@ -46,18 +46,20 @@ class Player(object):
         self.generation = generation
     
     def move(self,d):
-        nx,ny = self.curpos
-        if d == D_UP or d == D_DOWN:
-            ny += (d/abs(d))
-        elif d == D_RIGHT or d == D_LEFT:
-            nx += (d/abs(d))
+        if d != D_NONE:
+            nx,ny = self.curpos
+            if d == D_UP or d == D_DOWN:
+                ny += (d/abs(d))
+            elif d == D_RIGHT or d == D_LEFT:
+                nx += (d/abs(d))
         
-        if not self.world.isOpen(nx,ny):
+        if d != D_NONE and not self.world.isOpen(nx,ny):
             return False
         else:
-            self.curpos = (nx,ny)
+            if d != D_NONE:
+                self.curpos = (nx,ny)
             
-            self.gm.eventManager.call("plrmove",(self,not self.isShadow))
+                self.gm.eventManager.call("plrmove",(self,not self.isShadow))
     
             if not self.isShadow:
                 self.history.append(d)

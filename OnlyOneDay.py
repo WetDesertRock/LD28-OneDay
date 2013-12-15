@@ -13,7 +13,8 @@ mainfont = pygame.font.SysFont("Verdana", 14)
 
 running = True
 
-gm = GameManager(["First","Second"])
+gm = GameManager(["Third"])
+# gm = GameManager(["First","Second"])
 
 while running:
     Clock.tick(60)
@@ -38,13 +39,15 @@ while running:
             gm.move(D_RIGHT)
         elif event.key == pygame.K_LEFT:
             gm.move(D_LEFT)
+        elif event.key == pygame.K_SPACE:
+            gm.move(D_NONE)
     
     screen.fill((0,0,0))
     gm.draw()
     screen.blit(gm.surf,(0,0))
     for i,line in enumerate(gm.text):
         yoffset = i*mainfont.get_height() - 4
-        screen.blit(mainfont.render(line, 0, (255,255,255)),(20,590+yoffset))
+        screen.blit(mainfont.render(line, 0, (255,255,255)),(10,590+yoffset))
         
     
     pygame.display.update()
