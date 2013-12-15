@@ -72,7 +72,8 @@ class Player(object):
         if iscurrent:
             col = COL_PLAYER
         else:
-            col = COL_PPLAYER[self.generation%len(COL_PPLAYER)]
+            alpha = 255 - max(30*((self.world.ticks/self.maxhistory) - self.generation),30)
+            col = list(COL_PLAYER) + [alpha]
         cx,cy = self.curpos
         gs = self.world.gridsize
         pygame.draw.rect(surf,col,((cx*gs,cy*gs),(gs,gs)))
@@ -113,7 +114,7 @@ class GameEventManager(object):
 
 class GameManager(object):
     def __init__(self,levels):
-        self.surf = pygame.Surface((576, 576))
+        self.surf = pygame.Surface((576, 576),pygame.SRCALPHA)
         self.eventManager = GameEventManager()
         self.text = []
         

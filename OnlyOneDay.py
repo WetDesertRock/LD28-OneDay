@@ -19,7 +19,7 @@ gm = GameManager(["Third"])
 # gm = GameManager(["First","Second","Third"])
 
 while running:
-    Clock.tick(60)
+    Clock.tick(30)
     event = pygame.event.poll()
     if event.type == pygame.QUIT:
         running = False
