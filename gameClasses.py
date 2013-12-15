@@ -148,10 +148,11 @@ class GameManager(object):
             
         self.curworld.tick()
         
+        
         if self.curplr.isShadow:
             oldgen = self.curplr.generation
             if oldgen + 1 == self.curworld.maxlives:
-                self.loadLevel()
+                self.loadLevel(setNewWorld=False)
                 return
             
             self.eventManager.call("newlife",(oldgen+1,))
@@ -164,7 +165,7 @@ class GameManager(object):
         self.eventManager.call("tickdone",(self.curworld,))
         return True
     
-    def loadLevel(self, next=False, flash=True):
+    def loadLevel(self, next=False, flash=True, setNewWorld=True):
         self.deathflash = 0
         self.deathflashstate = 1
         
@@ -182,7 +183,7 @@ class GameManager(object):
         self.curplr = Player(self.curworld,self)
         self.players = [self.curplr]
         
-        self.newWorld = True
+        self.newWorld = setNewWorld
         
     def draw(self):
         self.surf.fill((0,0,0))
