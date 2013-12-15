@@ -3,7 +3,7 @@
     "spawnpoint": [5,4],
     "maxhistory": 20,
     "maxlives": 4,
-    "text": ["You are on your own for this level, good luck!"],
+    "text": [],
     "entities": [
         {
             "type":"levelend",
