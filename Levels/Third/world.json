@@ -12,12 +12,12 @@
         {
             "type":"triggerText",
             "pos": [6,11],
-            "text": ["Press the spacebar to wait an hour.", "You can see how many hours are left in the day in the upper righthand corner"]
+            "text": ["Press the spacebar to wait an hour.", "You can see how many hours are left in the day in the upper left-hand corner"]
         },
         {
             "type":"triggerText",
             "newlife": 1,
-            "text": ["Most levels have a limit to how many lives you can have existing at once.", "Here you only have one more avaliable life left!"]
+            "text": ["Most levels have a limit to how many lives you can have existing at once.", "You can check how many lives you have left in the upper left-hand corner.","Here you only have one more avaliable life left, use it wisely!"]
         },
         {
             "type":"switch",

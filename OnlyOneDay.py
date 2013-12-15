@@ -59,5 +59,8 @@ while running:
     if gm.curworld.maxhistory != -1:
         hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
         screen.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
+    if gm.curworld.maxlives > 0:
+        livesleft = gm.curworld.maxlives - gm.curplr.generation-1
+        screen.blit(dayfont.render("Lives Left: %d"%livesleft,1,COL_TEXT),(10,25))
     
     pygame.display.update()
