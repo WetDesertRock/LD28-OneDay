@@ -2,6 +2,7 @@ import pygame
 import pygame.gfxdraw
 from consts import *
 from worldio import *
+from textrect import render_textrect
 
 class World(object):
     def __init__(self,gsize,sp,mh,ml):
@@ -196,3 +197,78 @@ class GameManager(object):
         
     def winlevel(self):
         self.loadLevel(True)
+
+class Game(object):
+    def __init__(self):
+        self.mainfont = pygame.font.SysFont("Verdana", 14)
+        self.dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 14)
+        self.menufont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 20)
+        self.view = VIEW_MAINMENU
+        self.gm = None
+        self.mainmenu_buttons = {"play":pygame.rect.Rect((100,250),(150,60)),"reset":pygame.rect.Rect((330,330),(150,60))}
+    
+    def handleEvents(self, events):
+        for event in events:
+            if self.view == VIEW_MAINMENU:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    for b in self.mainmenu_buttons:
+                        if self.mainmenu_buttons[b].collidepoint(event.pos):
+                            self.menuButton(b)
+                            
+            elif self.view == VIEW_GAME:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        self.gm.move(D_UP)
+                    elif event.key == pygame.K_DOWN:
+                        self.gm.move(D_DOWN)
+                    elif event.key == pygame.K_RIGHT:
+                        self.gm.move(D_RIGHT)
+                    elif event.key == pygame.K_LEFT:
+                        self.gm.move(D_LEFT)
+                    elif event.key == pygame.K_SPACE:
+                        self.gm.move(D_NONE)
+                    elif event.key == pygame.K_e:
+                        self.startgame(["First"])
+    
+    def startgame(self,levels):
+        self.view = VIEW_GAME
+        self.gm = GameManager(levels)
+    
+    def menuButton(self,button):
+        if button == "play":
+            self.startgame(['First','Second','Third','Fourth'])
+        
+    def draw(self, surf):
+        if self.view == VIEW_MAINMENU:
+            surf.fill(COL_MENUBG)
+            for button in self.mainmenu_buttons:
+                if button == "play":
+                    col = COL_BPLAY
+                    text = "Play!"
+                elif button == "reset":
+                    col = COL_BRESET
+                    text = "Reset\nProgress"
+                
+                pygame.draw.rect(surf,col,self.mainmenu_buttons[button])
+                pygame.draw.rect(surf,(255,255,255),self.mainmenu_buttons[button].inflate(3,3),3)
+                pygame.draw.rect(surf,(255,255,255),self.mainmenu_buttons[button].inflate(-8,-8),1)
+                
+                tsurf = render_textrect(text,self.menufont,self.mainmenu_buttons[button], COL_BTEXT, (0,0,0,0),1)
+                surf.blit(tsurf,self.mainmenu_buttons[button])
+            
+        elif self.view == VIEW_GAME:
+            gm = self.gm
+            surf.fill(COL_BG)
+            gm.draw()
+            surf.blit(gm.surf,(0,0))
+    
+            for i,line in enumerate(gm.text):
+                yoffset = i*self.mainfont.get_height() - 4
+                surf.blit(self.mainfont.render(line, 0, COL_TEXT),(10,590+yoffset))
+    
+            if gm.curworld.maxhistory != -1:
+                hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
+                surf.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
+            if gm.curworld.maxlives > 0:
+                livesleft = gm.curworld.maxlives - gm.curplr.generation-1
+                surf.blit(dayfont.render("Lives Left: %d"%livesleft,1,COL_TEXT),(10,25))

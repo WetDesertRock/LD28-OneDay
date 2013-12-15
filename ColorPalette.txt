@@ -5,17 +5,18 @@
 
    var. 1 = #009999 = rgb(0,153,153) #Empty
    var. 2 = #1D7373 = rgb(29,115,115)
-   var. 3 = #006363 = rgb(0,99,99) #Solid
+   var. 3 = #006363 = rgb(0,99,99) #Solid #Menu BG
    var. 4 = #33CCCC = rgb(51,204,204)
    var. 5 = #5CCCCC = rgb(92,204,204)
    
    (0,42,42) #Text
+   
 
 *** Secondary Color A:
 
-   var. 1 = #1240AB = rgb(18,64,171) #Past player
+   var. 1 = #1240AB = rgb(18,64,171) #Past player #PlayButton
    var. 2 = #2A4480 = rgb(42,68,128)
-   var. 3 = #06266F = rgb(6,38,111) #Player
+   var. 3 = #06266F = rgb(6,38,111) #Player #ResetButton
    var. 4 = #4671D5 = rgb(70,113,213)
    var. 5 = #6C8CD5 = rgb(108,140,213)
 

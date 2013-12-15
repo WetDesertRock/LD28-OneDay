@@ -14,53 +14,39 @@ dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-B
 
 
 running = True
+game = Game()
 
-if len(sys.argv) >= 2:
-    gm = GameManager(sys.argv[1:])
-else:
-    gm = GameManager(["First","Second","Third","Fourth"])
+# if len(sys.argv) >= 2:
+#     gm = GameManager(sys.argv[1:])
+# else:
+#     gm = GameManager(["First","Second","Third","Fourth"])
 
 while running:
     Clock.tick(30)
-    event = pygame.event.poll()
-    if event.type == pygame.QUIT:
-        running = False
-        
-    elif event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_ESCAPE:
+    events = pygame.event.get()
+    extraevents = []
+    for event in events:
+        handled = False
+        if event.type == pygame.QUIT:
             running = False
+            handled = True
         
-        elif event.key == pygame.K_s:
-            stime = time.time()
-            pygame.image.save(screen, "Screenshot_%d.png" % stime)
-            print "Wrote Screenshot_%d.png" % stime
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+                handled = True
+                
+            elif event.key == pygame.K_s:
+                stime = time.time()
+                pygame.image.save(screen, "Screenshot_%d.png" % stime)
+                print "Wrote Screenshot_%d.png" % stime
+                handled = True
         
-        elif event.key == pygame.K_UP:
-            gm.move(D_UP)
-        elif event.key == pygame.K_DOWN:
-            gm.move(D_DOWN)
-        elif event.key == pygame.K_RIGHT:
-            gm.move(D_RIGHT)
-        elif event.key == pygame.K_LEFT:
-            gm.move(D_LEFT)
-        elif event.key == pygame.K_SPACE:
-            gm.move(D_NONE)
-        elif event.key == pygame.K_e:
-            gm.winlevel()
+        if not handled:
+            extraevents.append(event)
     
-    screen.fill(COL_BG)
-    gm.draw()
-    screen.blit(gm.surf,(0,0))
+    game.handleEvents(extraevents)
     
-    for i,line in enumerate(gm.text):
-        yoffset = i*mainfont.get_height() - 4
-        screen.blit(mainfont.render(line, 0, COL_TEXT),(10,590+yoffset))
-    
-    if gm.curworld.maxhistory != -1:
-        hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
-        screen.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
-    if gm.curworld.maxlives > 0:
-        livesleft = gm.curworld.maxlives - gm.curplr.generation-1
-        screen.blit(dayfont.render("Lives Left: %d"%livesleft,1,COL_TEXT),(10,25))
+    game.draw(screen)
     
     pygame.display.update()
