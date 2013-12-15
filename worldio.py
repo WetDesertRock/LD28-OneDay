@@ -9,7 +9,7 @@ def readWorld(name, World, gm=None):
     with open(os.path.join(WORLDSPATH,name,"world.json"),'r') as conf:
         options = json.loads(conf.read())
     
-    world = World(options['size'],tuple(options['spawnpoint']),options['maxhistory'])
+    world = World(options['size'],tuple(options['spawnpoint']),options['maxhistory'],options['maxlives'])
     
     emptychar = options.get("emptychar","-")
     solidchar = options.get("solidchar","&")

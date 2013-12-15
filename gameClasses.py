@@ -4,7 +4,7 @@ from consts import *
 from worldio import *
 
 class World(object):
-    def __init__(self,gsize,sp,mh):
+    def __init__(self,gsize,sp,mh,ml):
         self.gridsize = gsize #Avaliable sizes: 1, 2, 3, 4, 6, 8, 9, 12, 16, 18, 24, 32, 36, 48, 64, 72, 96, 144, 192, 288
         self.spawnpoint = sp
         self.grid = []
@@ -13,6 +13,7 @@ class World(object):
         
         self.maxhistory = mh
         self.ticks = 0
+        self.maxlives = ml
     
     def isOpen(self,x,y):
         if x < 0 or x >= len(self.grid) or y < 0 or y >= len(self.grid):
@@ -122,6 +123,7 @@ class GameManager(object):
         
         self.levels = levels
         self.worldindex = 0
+        
         self.loadLevel()
         
         self.deathflash = 0
@@ -146,6 +148,10 @@ class GameManager(object):
         
         if self.curplr.isShadow:
             oldgen = self.curplr.generation
+            if oldgen + 1 == self.curworld.maxlives:
+                self.loadLevel()
+                return
+                
             self.curplr = Player(self.curworld, self,oldgen+1)
             self.players.append(self.curplr)
     

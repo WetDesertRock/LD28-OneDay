@@ -2,6 +2,7 @@
     "size": 36,
     "spawnpoint": [12,11],
     "maxhistory": 9,
+    "maxlives": 2,
     "text": ["You only have one day to complete the challenge, but you have multiple lives.","When the day ends your previous life starts looping and you do new things.","Have your first life trigger the button while you go to the end."],
     "entities": [
         {
