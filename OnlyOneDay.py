@@ -1,4 +1,4 @@
-import pygame, time, os
+import pygame, time, os, sys
 
 from consts import *
 from gameClasses import *
@@ -15,8 +15,10 @@ dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-B
 
 running = True
 
-# gm = GameManager(["Third"])
-gm = GameManager(["First","Second","Third"])
+if len(sys.argv) >= 2:
+    gm = GameManager(sys.argv[1:])
+else:
+    gm = GameManager(["First","Second","Third","Fourth"])
 
 while running:
     Clock.tick(30)
