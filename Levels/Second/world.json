@@ -2,7 +2,7 @@
     "size": 48,
     "spawnpoint": [4,2],
     "maxhistory": -1,
-    "text": ["Yellow tiles:","If you move over a yellow tile like this, may open new passageway for you.","Try this out now."],
+    "text": ["Yellow tiles:","If you move over a yellow tile like this, it may open new passageway for you.","Try this out now."],
     "entities": [
         {
             "type":"levelend",

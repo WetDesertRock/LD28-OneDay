@@ -44,7 +44,7 @@ while running:
         elif event.key == pygame.K_SPACE:
             gm.move(D_NONE)
         elif event.key == pygame.K_e:
-            gm.deathflashstate = 1
+            gm.winlevel()
     
     screen.fill(COL_BG)
     gm.draw()
@@ -54,7 +54,8 @@ while running:
         yoffset = i*mainfont.get_height() - 4
         screen.blit(mainfont.render(line, 0, COL_TEXT),(10,590+yoffset))
     
-    hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
-    screen.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
+    if gm.curworld.maxhistory != -1:
+        hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
+        screen.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
     
     pygame.display.update()
