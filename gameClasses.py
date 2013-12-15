@@ -117,21 +117,22 @@ class GameEventManager(object):
 class GameManager(object):
     def __init__(self,levels):
         self.surf = pygame.Surface((576, 576),pygame.SRCALPHA)
-        self.eventManager = GameEventManager()
         self.text = []
+        self.eventManager = GameEventManager()
         
         self.levels = levels
         self.worldindex = 0
-        self.curworld = readWorld(levels[0],World,self)
         
-        self.curplr = Player(self.curworld,self)
-        self.players = [self.curplr]
+        self.loadLevel()
         
         self.deathflash = 0
         self.deathflashinc = 25
         self.deathflashstate = 0
     
     def move(self,dir):
+        if self.deathflashstate:
+            return False
+            
         move_succeeded = self.curplr.move(dir) 
         if not move_succeeded:
             return False
@@ -149,6 +150,21 @@ class GameManager(object):
         self.eventManager.call("tickdone",(self.curworld,))
         return True
     
+    def loadLevel(self, next=False, flash=True):
+        self.deathflash = 0
+        self.deathflashstate = 1
+        
+        if next:
+            self.worldindex += 1
+            
+        level = self.levels[self.worldindex]
+        
+        self.eventManager.clearCallbacks()
+        self.curworld = readWorld(level,World,self)
+        self.curplr = Player(self.curworld,self)
+        self.players = []
+        self.players = [self.curplr]
+        
     def draw(self):
         self.surf.fill((0,0,0))
         self.curworld.draw(self.surf)
@@ -166,10 +182,5 @@ class GameManager(object):
             self.surf.fill((0,0,0,self.deathflash))
         
     def winlevel(self):
-        self.eventManager.clearCallbacks()
-        self.players = []
-        self.worldindex += 1
-        self.curworld = readWorld(self.levels[self.worldindex],World,self)
-        self.curplr = Player(self.curworld,self)
-        self.players = [self.curplr]
+        self.loadLevel(True)
         

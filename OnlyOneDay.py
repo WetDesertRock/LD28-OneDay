@@ -15,8 +15,8 @@ dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-B
 
 running = True
 
-gm = GameManager(["Third"])
-# gm = GameManager(["First","Second","Third"])
+# gm = GameManager(["Third"])
+gm = GameManager(["First","Second","Third"])
 
 while running:
     Clock.tick(30)
@@ -43,6 +43,8 @@ while running:
             gm.move(D_LEFT)
         elif event.key == pygame.K_SPACE:
             gm.move(D_NONE)
+        elif event.key == pygame.K_e:
+            gm.deathflashstate = 1
     
     screen.fill(COL_BG)
     gm.draw()
@@ -54,6 +56,5 @@ while running:
     
     hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
     screen.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
-        
     
     pygame.display.update()
