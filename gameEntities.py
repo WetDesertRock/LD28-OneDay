@@ -8,16 +8,25 @@ class LevelFinish(object):
         self.gm = gm
         self.gm.eventManager.registerCallback("plrmove",self.playermove)
         self.gm.eventManager.registerCallback("draw",self.draw)
-    
+        self.surf = None
+        
     def playermove(self,player,isCurrent):
         if player.curpos == self.pos:
             self.gm.winlevel()
     
     def draw(self, surf):
         gs = self.gm.curworld.gridsize
-        pygame.draw.circle(surf,COL_GAMEEND[0],getCenterOfSquare(self.pos,gs),int(gs/2.2))
-        pygame.draw.circle(surf,COL_GAMEEND[1],getCenterOfSquare(self.pos,gs),int(gs/2.6))
-        pygame.draw.circle(surf,COL_GAMEEND[2],getCenterOfSquare(self.pos,gs),int(gs/3.6))
+        if self.surf == None:
+            gs = self.gm.curworld.gridsize
+            self.surf = pygame.Surface((gs,gs),pygame.SRCALPHA)
+            self.surf.fill((0,0,0,0))
+            pygame.draw.circle(self.surf,COL_GAMEEND[0],(gs/2,gs/2),int(gs/2.2))
+            pygame.draw.circle(self.surf,COL_GAMEEND[1],(gs/2,gs/2),int(gs/2.6))
+            pygame.draw.circle(self.surf,COL_GAMEEND[2],(gs/2,gs/2),int(gs/3.6))
+        
+        surf.blit(self.surf,getSquareRect(self.pos,gs))
+    
+        
 
 class TriggerText(object):
     def __init__(self, gm, text, isconstant, pos=None, newlife=None):
