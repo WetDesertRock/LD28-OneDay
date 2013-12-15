@@ -171,7 +171,11 @@ class GameManager(object):
         if next:
             self.worldindex += 1
             
-        level = self.levels[self.worldindex]
+        try:
+            level = self.levels[self.worldindex]
+        except IndexError:
+            self.game.wingame()
+            return
         
         self.eventManager.clearCallbacks()
         self.curworld = readWorld(level,World,self)
@@ -215,11 +219,11 @@ class Game(object):
         try:
             with open(os.path.join(".","Levels","progress.txt"),'r') as f: #I could get a better place for this...
                 self.completedlevels = [l.strip() for l in f.readlines()]
-                print self.completedlevels
         except:
-            f = open(os.path.join(".","Levels","progress.txt"),'w')
-            f.close()
-            self.completedlevels = []
+            self.clearprogress()
+        
+        if self.completedlevels == self.alllevels:
+            self.clearprogress()
     
     def handleEvents(self, events):
         for event in events:
@@ -228,6 +232,10 @@ class Game(object):
                     for b in self.mainmenu_buttons:
                         if self.mainmenu_buttons[b].collidepoint(event.pos):
                             self.menuButton(b)
+                            
+            elif self.view == VIEW_END:
+                if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.KEYDOWN:
+                    self.view = VIEW_MAINMENU
                             
             elif self.view == VIEW_GAME:
                 if event.type == pygame.KEYDOWN:
@@ -253,15 +261,22 @@ class Game(object):
         self.completedlevels.append(level)
         with open(os.path.join(".","Levels","progress.txt"),'w') as f:
             f.write("\n".join(self.completedlevels))
-        
+    
+    def wingame(self):
+        self.view = VIEW_END
+        f = open(os.path.join(".","Levels","progress.txt"),'w')
+        f.close()
+    
+    def clearprogress(self):
+        f = open(os.path.join(".","Levels","progress.txt"),'w')
+        f.close()
+        self.completedlevels = []
     
     def menuButton(self,button):
         if button == "play":
             self.startgame(['First','Second','Third','Fourth'])
         if button == "reset":
-            f = open(os.path.join(".","Levels","progress.txt"),'w')
-            f.close()
-            self.completedlevels = []
+            self.clearprogress()
         
     def draw(self, surf):
         if self.view == VIEW_MAINMENU:
@@ -280,6 +295,11 @@ class Game(object):
                 
                 tsurf = render_textrect(text,self.menufont,self.mainmenu_buttons[button].inflate(-10,-10), COL_BTEXT, (0,0,0,0),1)
                 surf.blit(tsurf,self.mainmenu_buttons[button])
+        
+        elif self.view == VIEW_END:
+            surf.fill(COL_MENUBG)
+            tsurf = render_textrect("You won!\nProgress has been reset.\nPress any key to continue back to the main menu.",self.menufont,surf.get_rect().inflate(-100,-100), COL_BTEXT, (0,0,0,0),1)
+            surf.blit(tsurf,surf.get_rect())
             
         elif self.view == VIEW_GAME:
             gm = self.gm
