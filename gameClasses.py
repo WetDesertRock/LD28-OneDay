@@ -122,12 +122,13 @@ class GameManager(object):
         
         self.levels = levels
         self.worldindex = 0
-        
         self.loadLevel()
         
         self.deathflash = 0
         self.deathflashinc = 25
         self.deathflashstate = 0
+        
+        self.newWorld = False
     
     def move(self,dir):
         if self.deathflashstate:
@@ -136,7 +137,11 @@ class GameManager(object):
         move_succeeded = self.curplr.move(dir) 
         if not move_succeeded:
             return False
-    
+        
+        if self.newWorld:
+            self.newWorld = False
+            return
+            
         self.curworld.tick()
         
         if self.curplr.isShadow:
@@ -162,8 +167,9 @@ class GameManager(object):
         self.eventManager.clearCallbacks()
         self.curworld = readWorld(level,World,self)
         self.curplr = Player(self.curworld,self)
-        self.players = []
         self.players = [self.curplr]
+        
+        self.newWorld = True
         
     def draw(self):
         self.surf.fill((0,0,0))
@@ -183,4 +189,3 @@ class GameManager(object):
         
     def winlevel(self):
         self.loadLevel(True)
-        
