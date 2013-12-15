@@ -3,7 +3,9 @@
     "spawnpoint": [4,2],
     "maxhistory": -1,
     "maxlives": -1,
-    "text": ["Yellow tiles:","If you move over a yellow tile like this, it may open new passageway for you.","Try this out now."],
+    "text": ["Green tiles:",
+             "If you move over a green tile like this, it will open new passageway for you.",
+             "Try this out now."],
     "entities": [
         {
             "type":"levelend",
@@ -14,6 +16,13 @@
             "pos": [6,4],
             "target": [4,6],
             "oneuse": true
+        },
+        {
+            "type":"triggerText",
+            "pos": [6,4],
+            "text": ["Good job!",
+                     "Now complete the level by going to the Yellow Circle."
+                     ]
         }
     ]
 }
