@@ -80,7 +80,10 @@ class Player(object):
             
         gs = self.world.gridsize
         
-        pygame.draw.circle(surf,col,getCenterOfSquare(self.curpos,gs),gs/2)
+        if iscurrent:
+            pygame.draw.circle(surf,col,getCenterOfSquare(self.curpos,gs),gs/2)
+        else:
+            pygame.draw.circle(surf,col,getCenterOfSquare(self.curpos,gs),int(gs/3))
     
     def seek(self, i):
         i = min(len(self.history)-1,max(0,i)) #Constrain
@@ -189,8 +192,11 @@ class GameManager(object):
         self.surf.fill((0,0,0))
         self.curworld.draw(self.surf)
         self.eventManager.call("draw",(self.surf,))
+        self.curplr.draw(self.surf,True)
         for plr in self.players:
-            plr.draw(self.surf,plr is self.curplr)
+            if plr is self.curplr:
+                continue
+            plr.draw(self.surf,False)
         
         if self.deathflashstate:
             self.deathflash += self.deathflashinc*self.deathflashstate
