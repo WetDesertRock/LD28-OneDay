@@ -15,7 +15,9 @@ class LevelFinish(object):
     
     def draw(self, surf):
         gs = self.gm.curworld.gridsize
-        pygame.draw.rect(surf,COL_GAMEEND,getSquareRect(self.pos,gs,7))
+        pygame.draw.circle(surf,COL_GAMEEND[0],getCenterOfSquare(self.pos,gs),int(gs/2.2))
+        pygame.draw.circle(surf,COL_GAMEEND[1],getCenterOfSquare(self.pos,gs),int(gs/2.6))
+        pygame.draw.circle(surf,COL_GAMEEND[2],getCenterOfSquare(self.pos,gs),int(gs/3.6))
 
 class TriggerText(object):
     def __init__(self, gm, text, isconstant, pos=None, newlife=None):
@@ -75,4 +77,4 @@ class Switch(object):
     
     def draw(self, surf):
         gs = self.gm.curworld.gridsize
-        pygame.draw.rect(surf,COL_SWITCH,getSquareRect(self.pos,gs,5))
+        pygame.draw.rect(surf,COL_SWITCH,getSquareRect(self.pos,gs,9))
