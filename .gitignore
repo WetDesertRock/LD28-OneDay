@@ -41,4 +41,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+#Specific game stuff:
 Screenshot_*.png
+progress.txt

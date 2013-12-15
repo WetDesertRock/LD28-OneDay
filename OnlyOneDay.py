@@ -9,17 +9,9 @@ pygame.font.init()
 pygame.display.init()
 screen = pygame.display.set_mode((576, 650))
 Clock = pygame.time.Clock()
-mainfont = pygame.font.SysFont("Verdana", 14)
-dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 14)
-
 
 running = True
 game = Game()
-
-# if len(sys.argv) >= 2:
-#     gm = GameManager(sys.argv[1:])
-# else:
-#     gm = GameManager(["First","Second","Third","Fourth"])
 
 while running:
     Clock.tick(30)

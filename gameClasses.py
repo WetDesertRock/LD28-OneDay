@@ -117,7 +117,8 @@ class GameEventManager(object):
         self.eventcallbacks = {}
 
 class GameManager(object):
-    def __init__(self,levels):
+    def __init__(self,game,levels):
+        self.game = game
         self.surf = pygame.Surface((576, 576),pygame.SRCALPHA)
         self.text = []
         self.eventManager = GameEventManager()
@@ -196,6 +197,7 @@ class GameManager(object):
             self.surf.fill((0,0,0,self.deathflash))
         
     def winlevel(self):
+        self.game.winlevel(self.levels[self.worldindex])
         self.loadLevel(True)
 
 class Game(object):
@@ -206,6 +208,18 @@ class Game(object):
         self.view = VIEW_MAINMENU
         self.gm = None
         self.mainmenu_buttons = {"play":pygame.rect.Rect((100,350),(150,70)),"reset":pygame.rect.Rect((330,430),(150,70))}
+        
+        with open(os.path.join(".","Levels","levelset.txt"),'r') as f:
+            self.alllevels = [l.strip() for l in f.readlines()]
+        
+        try:
+            with open(os.path.join(".","Levels","progress.txt"),'r') as f: #I could get a better place for this...
+                self.completedlevels = [l.strip() for l in f.readlines()]
+                print self.completedlevels
+        except:
+            f = open(os.path.join(".","Levels","progress.txt"),'w')
+            f.close()
+            self.completedlevels = []
     
     def handleEvents(self, events):
         for event in events:
@@ -231,12 +245,23 @@ class Game(object):
                         self.startgame(["First"])
     
     def startgame(self,levels):
+        levels = [x for x in self.alllevels if x not in self.completedlevels]
         self.view = VIEW_GAME
-        self.gm = GameManager(levels)
+        self.gm = GameManager(self,levels)
+    
+    def winlevel(self,level):
+        self.completedlevels.append(level)
+        with open(os.path.join(".","Levels","progress.txt"),'w') as f:
+            f.write("\n".join(self.completedlevels))
+        
     
     def menuButton(self,button):
         if button == "play":
             self.startgame(['First','Second','Third','Fourth'])
+        if button == "reset":
+            f = open(os.path.join(".","Levels","progress.txt"),'w')
+            f.close()
+            self.completedlevels = []
         
     def draw(self, surf):
         if self.view == VIEW_MAINMENU:
