@@ -225,6 +225,8 @@ class Game(object):
         
         if self.completedlevels == self.alllevels:
             self.clearprogress()
+        
+        self.rendered_text = {'livesleft':self.dayfont.render("Lives Left: ",1,COL_TEXT)}
     
     def handleEvents(self, events):
         for event in events:
@@ -315,4 +317,8 @@ class Game(object):
                 surf.blit(self.dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
             if gm.curworld.maxlives > 0:
                 livesleft = gm.curworld.maxlives - gm.curplr.generation-1
-                surf.blit(self.dayfont.render("Lives Left: %d"%livesleft,1,COL_TEXT),(10,25))
+                surf.blit(self.rendered_text['livesleft'],(10,25))
+                x = 10+self.rendered_text['livesleft'].get_width()
+                y = 25+ self.dayfont.get_ascent()/2 + 6
+                for i in xrange(livesleft):
+                    pygame.draw.circle(surf,COL_PLAYER,(x+(i*13),y),6)
