@@ -120,7 +120,7 @@ class GameEventManager(object):
         self.eventcallbacks = {}
 
 class GameManager(object):
-    def __init__(self,game,levels):
+    def __init__(self,game,levels,buttonfont):
         self.game = game
         self.surf = pygame.Surface((576, 576),pygame.SRCALPHA)
         self.text = []
@@ -136,6 +136,19 @@ class GameManager(object):
         self.deathflashstate = 0
         
         self.newWorld = False
+        
+        self.resetbutton = pygame.Rect((476,546),(100,30))
+        self.resetbutton_surf = pygame.Surface(self.resetbutton.size)
+        self.resetbutton_surf.fill(COL_BLEVELRESET)
+        pygame.draw.rect(self.resetbutton_surf,(0,0,0),((0,0),(100,30)),5)
+        text = buttonfont.render("Reset",1,(0,0,0))
+        x = 50-text.get_rect().centerx
+        y = 15-text.get_rect().centery
+        self.resetbutton_surf.blit(text,(x,y))
+    
+    def click(self,pos):
+        if self.resetbutton.collidepoint(pos):
+            self.loadLevel()
     
     def move(self,dir):
         if self.deathflashstate:
@@ -207,18 +220,25 @@ class GameManager(object):
             
             self.surf.fill((0,0,0,self.deathflash))
         
+        self.surf.blit(self.resetbutton_surf,self.resetbutton)
+        
     def winlevel(self):
         self.game.winlevel(self.levels[self.worldindex])
         self.loadLevel(True)
 
 class Game(object):
     def __init__(self):
+        self.running = True
         self.mainfont = pygame.font.SysFont("Arial", 16)
         self.dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 18)
         self.menufont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 20)
         self.view = VIEW_MAINMENU
         self.gm = None
-        self.mainmenu_buttons = {"play":pygame.rect.Rect((100,350),(150,70)),"reset":pygame.rect.Rect((330,430),(150,70))}
+        self.mainmenu_buttons = {
+                                 "play":pygame.rect.Rect((100,350),(150,70)),
+                                 "reset":pygame.rect.Rect((330,430),(150,70)),
+                                 "quit":pygame.rect.Rect((155,510),(150,70)),
+                                }
         
         with open(os.path.join(".","Levels","levelset.txt"),'r') as f:
             self.alllevels = [l.strip() for l in f.readlines()]
@@ -247,6 +267,8 @@ class Game(object):
                     self.view = VIEW_MAINMENU
                             
             elif self.view == VIEW_GAME:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.gm.click(event.pos)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         self.gm.move(D_UP)
@@ -262,7 +284,7 @@ class Game(object):
     def startgame(self,levels):
         levels = [x for x in self.alllevels if x not in self.completedlevels]
         self.view = VIEW_GAME
-        self.gm = GameManager(self,levels)
+        self.gm = GameManager(self,levels,self.dayfont)
     
     def winlevel(self,level):
         self.completedlevels.append(level)
@@ -284,17 +306,24 @@ class Game(object):
             self.startgame(['First','Second','Third','Fourth'])
         if button == "reset":
             self.clearprogress()
+        if button == "quit":
+            self.running = False
         
     def draw(self, surf):
         if self.view == VIEW_MAINMENU:
             surf.fill(COL_MENUBG)
             for button in self.mainmenu_buttons:
+                col = COL_BPLAY #Default
+                text = button
                 if button == "play":
                     col = COL_BPLAY
                     text = "Play!"
                 elif button == "reset":
                     col = COL_BRESET
                     text = "Reset\nProgress"
+                elif button == "quit":
+                    col = COL_BQUIT
+                    text = "Quit Game"
                 
                 pygame.draw.rect(surf,col,self.mainmenu_buttons[button])
                 pygame.draw.rect(surf,(255,255,255),self.mainmenu_buttons[button].inflate(3,3),3)

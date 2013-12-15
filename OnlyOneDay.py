@@ -13,7 +13,7 @@ Clock = pygame.time.Clock()
 running = True
 game = Game()
 
-while running:
+while running and game.running:
     Clock.tick(30)
     events = pygame.event.get()
     extraevents = []
