@@ -3,7 +3,9 @@
     "spawnpoint": [12,11],
     "maxhistory": 9,
     "maxlives": 2,
-    "text": ["You only have one day to complete the challenge, but you have multiple lives.","When the day ends your previous life starts looping and you do new things.","Have your first life trigger the button while you go to the end."],
+    "text": ["You only have one day, each time you move an hour passes.",
+             "You have several Echoes to use. When the day ends, an echo of",
+             "your actions happens as you replay the day"],
     "entities": [
         {
             "type":"levelend",
@@ -12,191 +14,19 @@
         {
             "type":"triggerText",
             "pos": [6,11],
-            "text": ["Press the spacebar to wait an hour.", "You can see how many hours are left in the day in the upper left-hand corner"]
+            "text": ["Press the spacebar to wait an hour.", "You can see how many hours are left in the day in the upper left-hand corner","","Wait until the day ends"]
         },
         {
             "type":"triggerText",
             "newlife": 1,
-            "text": ["Most levels have a limit to how many lives you can have existing at once.", "You can check how many lives you have left in the upper left-hand corner.","Here you only have one more avaliable life left, use it wisely!"]
+            "text": ["Most levels limit how many Echoes are in play at one time.",
+                     "Check how many Echos you have left in upper-left hand corner",
+                     "You only have one Echo left: use it wisely!"]
         },
         {
             "type":"switch",
             "pos": [6,11],
             "target": [12,5],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [2,1],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [3,1],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [1,2],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [4,2],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [1,3],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [4,3],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [6,3],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [7,3],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [8,3],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [1,4],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [4,4],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [6,4],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [9,4],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [1,5],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [4,5],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [6,5],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [9,5],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [1,6],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [4,6],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [6,6],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [9,6],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [1,7],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [4,7],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [6,7],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [9,7],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [2,8],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [3,8],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [6,8],
-            "oneuse": false
-        },
-        {
-            "type":"switch",
-            "pos": [6,11],
-            "target": [9,8],
             "oneuse": false
         }
     ]
