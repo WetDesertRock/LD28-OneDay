@@ -9,13 +9,28 @@ class LevelFinish(object):
         self.gm.eventManager.registerCallback("plrmove",self.playermove)
         self.gm.eventManager.registerCallback("draw",self.draw)
     
-    def playermove(self,player,isShadow):
+    def playermove(self,player,isCurrent):
         if player.curpos == self.pos:
             self.gm.winlevel()
     
     def draw(self, surf):
         gs = self.gm.curworld.gridsize
         pygame.draw.rect(surf,COL_GAMEEND,getSquareRect(self.pos,gs,7))
+
+class TriggerText(object):
+    def __init__(self, gm, pos, text, isconstant):
+        self.pos = pos
+        self.gm = gm
+        self.text = text
+        self.gm.eventManager.registerCallback("plrmove",self.playermove)
+        self.constant = isconstant
+        self.triggered = False
+    
+    def playermove(self,player,isCurrent):
+        if isCurrent:
+            if self.constant or not self.triggered and player.curpos == self.pos:
+                self.gm.text = self.text
+                self.triggered = True
 
 class Switch(object):
     def __init__(self, gm, pos, tpos, oneuse=False):

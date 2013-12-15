@@ -21,6 +21,8 @@ def readWorld(name, World, gm=None):
                 LevelFinish(gm,tuple(ent['pos']))
             elif ent['type'] == "switch":
                 Switch(gm,tuple(ent['pos']),tuple(ent['target']),ent['oneuse'])
+            elif ent['type'] == "triggerText":
+                TriggerText(gm,tuple(ent['pos']),ent['text'],ent.get("constant",False))
     
     with open(os.path.join(WORLDSPATH,name,"grid.txt"),'r') as gridfile:
         for line in gridfile:
@@ -34,6 +36,9 @@ def readWorld(name, World, gm=None):
                 if c == emptychar:
                     mat = MAT_EMPTY
                 elif c == solidchar:
+                    mat = MAT_SOLID
+                elif c == "*":
+                    print x,y
                     mat = MAT_SOLID
                     
                 world.grid[x][y] = mat
