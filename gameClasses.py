@@ -252,7 +252,7 @@ class Game(object):
         if self.completedlevels == self.alllevels:
             self.clearprogress()
         
-        self.rendered_text = {'livesleft':self.dayfont.render("Lives Left: ",1,COL_TEXT)}
+        self.rendered_text = {'livesleft':self.dayfont.render("Echoes Left: ",1,COL_TEXT)}
     
     def handleEvents(self, events):
         for event in events:
