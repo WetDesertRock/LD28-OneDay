@@ -151,7 +151,8 @@ class GameManager(object):
             if oldgen + 1 == self.curworld.maxlives:
                 self.loadLevel()
                 return
-                
+            
+            self.eventManager.call("newlife",(oldgen+1,))
             self.curplr = Player(self.curworld, self,oldgen+1)
             self.players.append(self.curplr)
     

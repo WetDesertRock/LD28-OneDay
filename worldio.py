@@ -22,7 +22,12 @@ def readWorld(name, World, gm=None):
             elif ent['type'] == "switch":
                 Switch(gm,tuple(ent['pos']),tuple(ent['target']),ent['oneuse'])
             elif ent['type'] == "triggerText":
-                TriggerText(gm,tuple(ent['pos']),ent['text'],ent.get("constant",False))
+                pos = ent.get('pos',None)
+                if pos != None:
+                    pos = tuple(pos)
+                
+                
+                TriggerText(gm,ent['text'],ent.get("constant",False),pos, ent.get('newlife',-1))
     
     with open(os.path.join(WORLDSPATH,name,"grid.txt"),'r') as gridfile:
         for line in gridfile:

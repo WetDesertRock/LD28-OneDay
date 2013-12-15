@@ -18,19 +18,29 @@ class LevelFinish(object):
         pygame.draw.rect(surf,COL_GAMEEND,getSquareRect(self.pos,gs,7))
 
 class TriggerText(object):
-    def __init__(self, gm, pos, text, isconstant):
+    def __init__(self, gm, text, isconstant, pos=None, newlife=None):
         self.pos = pos
+        self.newlife = newlife
         self.gm = gm
         self.text = text
-        self.gm.eventManager.registerCallback("plrmove",self.playermove)
         self.constant = isconstant
         self.triggered = False
+        
+        if pos != None:
+            self.gm.eventManager.registerCallback("plrmove",self.playermove)
+        if newlife != None:
+            self.gm.eventManager.registerCallback("newlife",self.onnewlife)
     
     def playermove(self,player,isCurrent):
         if isCurrent:
             if self.constant or not self.triggered and player.curpos == self.pos:
                 self.gm.text = self.text
                 self.triggered = True
+    
+    def onnewlife(self,newgen):
+        if self.constant or not self.triggered and newgen == self.newlife:
+            self.gm.text = self.text
+            self.triggered = True
 
 class Switch(object):
     def __init__(self, gm, pos, tpos, oneuse=False):

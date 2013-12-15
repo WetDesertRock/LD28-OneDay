@@ -15,6 +15,11 @@
             "text": ["Press the spacebar to wait an hour.", "You can see how many hours are left in the day in the upper righthand corner"]
         },
         {
+            "type":"triggerText",
+            "newlife": 1,
+            "text": ["Most levels have a limit to how many lives you can have existing at once.", "Here you only have one more avaliable life left!"]
+        },
+        {
             "type":"switch",
             "pos": [6,11],
             "target": [12,5],
