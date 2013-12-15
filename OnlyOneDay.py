@@ -7,7 +7,7 @@ from worldio import *
 pygame.font.init()
 
 pygame.display.init()
-screen = pygame.display.set_mode((576, 650))
+screen = pygame.display.set_mode((576, 700))
 Clock = pygame.time.Clock()
 
 running = True

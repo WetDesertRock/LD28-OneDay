@@ -207,8 +207,8 @@ class GameManager(object):
 
 class Game(object):
     def __init__(self):
-        self.mainfont = pygame.font.SysFont("Verdana", 14)
-        self.dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 14)
+        self.mainfont = pygame.font.SysFont("Arial", 16)
+        self.dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 18)
         self.menufont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 20)
         self.view = VIEW_MAINMENU
         self.gm = None
@@ -250,8 +250,6 @@ class Game(object):
                         self.gm.move(D_LEFT)
                     elif event.key == pygame.K_SPACE:
                         self.gm.move(D_NONE)
-                    elif event.key == pygame.K_e:
-                        self.startgame(["First"])
     
     def startgame(self,levels):
         levels = [x for x in self.alllevels if x not in self.completedlevels]
@@ -309,7 +307,7 @@ class Game(object):
             surf.blit(gm.surf,(0,0))
     
             for i,line in enumerate(gm.text):
-                yoffset = i*self.mainfont.get_height() - 4
+                yoffset = i*self.mainfont.get_height()
                 surf.blit(self.mainfont.render(line, 0, COL_TEXT),(10,590+yoffset))
     
             if gm.curworld.maxhistory != -1:
