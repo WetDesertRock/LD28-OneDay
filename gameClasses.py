@@ -1,4 +1,5 @@
 import pygame
+import pygame.gfxdraw
 from consts import *
 from worldio import *
 
@@ -74,9 +75,10 @@ class Player(object):
         else:
             alpha = 255 - max(30*((self.world.ticks/self.maxhistory) - self.generation),30)
             col = list(COL_PLAYER) + [alpha]
-        cx,cy = self.curpos
+            
         gs = self.world.gridsize
-        pygame.draw.rect(surf,col,((cx*gs,cy*gs),(gs,gs)))
+        
+        pygame.draw.circle(surf,col,getCenterOfSquare(self.curpos,gs),gs/2)
     
     def seek(self, i):
         i = min(len(self.history)-1,max(0,i)) #Constrain
@@ -124,6 +126,10 @@ class GameManager(object):
         
         self.curplr = Player(self.curworld,self)
         self.players = [self.curplr]
+        
+        self.deathflash = 0
+        self.deathflashinc = 25
+        self.deathflashstate = 0
     
     def move(self,dir):
         move_succeeded = self.curplr.move(dir) 
@@ -149,6 +155,15 @@ class GameManager(object):
         self.eventManager.call("draw",(self.surf,))
         for plr in self.players:
             plr.draw(self.surf,plr is self.curplr)
+        
+        if self.deathflashstate:
+            self.deathflash += self.deathflashinc*self.deathflashstate
+            if self.deathflash <= 20 and self.deathflashstate == -1:
+                self.deathflashstate = 0
+            elif self.deathflash >= 230:
+                self.deathflashstate = -1
+            
+            self.surf.fill((0,0,0,self.deathflash))
         
     def winlevel(self):
         self.eventManager.clearCallbacks()
