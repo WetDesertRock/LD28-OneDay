@@ -1,4 +1,4 @@
-import pygame, time
+import pygame, time, os
 
 from consts import *
 from gameClasses import *
@@ -10,11 +10,13 @@ pygame.display.init()
 screen = pygame.display.set_mode((576, 650))
 Clock = pygame.time.Clock()
 mainfont = pygame.font.SysFont("Verdana", 14)
+dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 14)
+
 
 running = True
 
 gm = GameManager(["Third"])
-# gm = GameManager(["First","Second"])
+# gm = GameManager(["First","Second","Third"])
 
 while running:
     Clock.tick(60)
@@ -42,12 +44,16 @@ while running:
         elif event.key == pygame.K_SPACE:
             gm.move(D_NONE)
     
-    screen.fill((0,0,0))
+    screen.fill(COL_BG)
     gm.draw()
     screen.blit(gm.surf,(0,0))
+    
     for i,line in enumerate(gm.text):
         yoffset = i*mainfont.get_height() - 4
-        screen.blit(mainfont.render(line, 0, (255,255,255)),(10,590+yoffset))
+        screen.blit(mainfont.render(line, 0, COL_TEXT),(10,590+yoffset))
+    
+    hourleft = gm.curworld.maxhistory-gm.curworld.ticks%gm.curworld.maxhistory -1
+    screen.blit(dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
         
     
     pygame.display.update()

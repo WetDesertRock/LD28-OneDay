@@ -8,6 +8,8 @@
    var. 3 = #006363 = rgb(0,99,99) #Solid
    var. 4 = #33CCCC = rgb(51,204,204)
    var. 5 = #5CCCCC = rgb(92,204,204)
+   
+   (0,42,42) #Text
 
 *** Secondary Color A:
 
