@@ -255,7 +255,11 @@ class Game(object):
         self.rendered_text = {'livesleft':self.dayfont.render("Echoes Left: ",1,COL_TEXT)}
         
         
-        self.sounds = {"levelwin":pygame.mixer.Sound(os.path.join('Media','levelwin.ogg'))}
+        self.sounds = {
+                       "levelwin":pygame.mixer.Sound(os.path.join('Media','levelwin.ogg')),
+                       "switch":pygame.mixer.Sound(os.path.join('Media','switch.ogg')),
+                       "triggertext":pygame.mixer.Sound(os.path.join('Media','trigger.ogg'))
+                      }
     
     def handleEvents(self, events):
         for event in events:

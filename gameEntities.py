@@ -47,11 +47,13 @@ class TriggerText(object):
             if self.constant or not self.triggered and player.curpos == self.pos:
                 self.gm.text = self.text
                 self.triggered = True
+                self.gm.game.sounds['triggertext'].play()
     
     def onnewlife(self,newgen):
         if self.constant or not self.triggered and newgen == self.newlife:
             self.gm.text = self.text
             self.triggered = True
+            self.gm.game.sounds['triggertext'].play()
 
 class Switch(object):
     def __init__(self, gm, pos, tpos, oneuse=False):
@@ -69,6 +71,11 @@ class Switch(object):
             self.gm.curworld.grid[x][y] = MAT_EMPTY
         else:
             self.gm.curworld.grid[x][y] = MAT_SOLID
+        
+        if state and not self.state:
+            self.gm.game.sounds['switch'].play()
+            
+        self.state = state
     
     def resetstate(self):
         if self.oneuse:
