@@ -253,6 +253,9 @@ class Game(object):
             self.clearprogress()
         
         self.rendered_text = {'livesleft':self.dayfont.render("Echoes Left: ",1,COL_TEXT)}
+        
+        
+        self.sounds = {"levelwin":pygame.mixer.Sound(os.path.join('Media','levelwin.ogg'))}
     
     def handleEvents(self, events):
         for event in events:
@@ -290,6 +293,7 @@ class Game(object):
         self.completedlevels.append(level)
         with open(os.path.join(".","Levels","progress.txt"),'w') as f:
             f.write("\n".join(self.completedlevels))
+        self.sounds['levelwin'].play()
     
     def wingame(self):
         self.view = VIEW_END
