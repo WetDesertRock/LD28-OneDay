@@ -232,6 +232,7 @@ class Game(object):
         self.mainfont = pygame.font.SysFont("Arial", 16)
         self.dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 18)
         self.menufont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 20)
+        self.titlefont = pygame.font.Font(os.path.join(".","Media","Grundschrift.ttf"), 68)
         self.view = VIEW_MAINMENU
         self.gm = None
         self.mainmenu_buttons = {
@@ -252,7 +253,10 @@ class Game(object):
         if self.completedlevels == self.alllevels:
             self.clearprogress()
         
-        self.rendered_text = {'livesleft':self.dayfont.render("Echoes Left: ",1,COL_TEXT)}
+        self.rendered_text = {
+                              'livesleft':self.dayfont.render("Echoes Left: ",1,COL_TEXT),
+                              'title': [ self.titlefont.render("Before ",1,COL_TEXT),self.titlefont.render("Night ",1,COL_TEXT),self.titlefont.render("Falls",1,COL_TEXT) ]
+                             }
         
         
         self.sounds = {
@@ -341,6 +345,13 @@ class Game(object):
                 
                 tsurf = render_textrect(text,self.menufont,self.mainmenu_buttons[button].inflate(-10,-10), COL_BTEXT, (0,0,0,0),1)
                 surf.blit(tsurf,self.mainmenu_buttons[button])
+            
+            
+            xoffset = 576/2 - sum([i.get_width() for i in self.rendered_text['title']])/2
+            
+            for i,s in enumerate(self.rendered_text['title']):
+                surf.blit(s,(xoffset,150+(i*20)))
+                xoffset += s.get_width()
         
         elif self.view == VIEW_END:
             surf.fill(COL_MENUBG)
