@@ -277,7 +277,9 @@ class Game(object):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.gm.click(event.pos)
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_ESCAPE:
+                        self.view = VIEW_MAINMENU
+                    elif event.key == pygame.K_UP:
                         self.gm.move(D_UP)
                     elif event.key == pygame.K_DOWN:
                         self.gm.move(D_DOWN)
