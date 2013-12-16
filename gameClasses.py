@@ -350,7 +350,7 @@ class Game(object):
             xoffset = 576/2 - sum([i.get_width() for i in self.rendered_text['title']])/2
             
             for i,s in enumerate(self.rendered_text['title']):
-                surf.blit(s,(xoffset,150+(i*20)))
+                surf.blit(s,(xoffset,150+(i*40)))
                 xoffset += s.get_width()
         
         elif self.view == VIEW_END:
