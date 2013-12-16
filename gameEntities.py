@@ -56,8 +56,9 @@ class TriggerText(object):
             self.gm.game.sounds['triggertext'].play()
 
 class Switch(object):
-    def __init__(self, gm, pos, tpos, oneuse=False):
+    def __init__(self, gm, pos, tpos=None, oneuse=False,tposlist=None):
         self.pos = pos
+        self.targetposlist = tposlist
         self.targetblock = tpos
         self.gm = gm
         self.state = False
@@ -66,11 +67,20 @@ class Switch(object):
         self.gm.eventManager.registerCallback("draw",self.draw)
     
     def switchstate(self,state):
-        x,y = self.targetblock
-        if state:
-            self.gm.curworld.grid[x][y] = MAT_EMPTY
-        else:
-            self.gm.curworld.grid[x][y] = MAT_SOLID
+        if self.targetblock != None:
+            x,y = self.targetblock
+            if state:
+                self.gm.curworld.grid[x][y] = MAT_EMPTY
+            else:
+                self.gm.curworld.grid[x][y] = MAT_SOLID
+        
+        if self.targetposlist != None:
+            for pos in self.targetposlist:
+                x,y = pos
+                if state:
+                    self.gm.curworld.grid[x][y] = MAT_EMPTY
+                else:
+                    self.gm.curworld.grid[x][y] = MAT_SOLID
         
         if state and not self.state:
             self.gm.game.sounds['switch'].play()

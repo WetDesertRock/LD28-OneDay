@@ -20,7 +20,7 @@ def readWorld(name, World, gm=None):
             if ent['type'] == "levelend":
                 LevelFinish(gm,tuple(ent['pos']))
             elif ent['type'] == "switch":
-                Switch(gm,tuple(ent['pos']),tuple(ent['target']),ent['oneuse'])
+                Switch(gm,tuple(ent['pos']),ent.get('target',None),ent['oneuse'],ent.get('targetposlist',None))
             elif ent['type'] == "triggerText":
                 pos = ent.get('pos',None)
                 if pos != None:
