@@ -3,8 +3,10 @@
     "spawnpoint": [12,11],
     "maxhistory": 9,
     "maxlives": 2,
-    "text": ["You only have one day, each time you move an hour passes.",
-             "You have several Echoes to use. When the day ends, an echo of",
+    "text": ["- You only have one day, each time you move an hour passes.",
+             "- You can use space to skip an hour.",
+             "- You can see how many hours in the top left of the screen.",
+             "- You have several Echoes to use. When the day ends, an echo of",
              "your actions happens as you replay the day"],
     "entities": [
         {
@@ -14,7 +16,7 @@
         {
             "type":"triggerText",
             "pos": [6,11],
-            "text": ["Press the spacebar to wait an hour.", "You can see how many hours are left in the day in the upper left-hand corner","","Wait until the day ends"]
+            "text": ["Wait until the day ends"]
         },
         {
             "type":"triggerText",
