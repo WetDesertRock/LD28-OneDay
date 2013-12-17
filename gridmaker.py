@@ -8,7 +8,7 @@ from gameClasses import World
 
 try:
     gs = int(sys.argv[1])
-    world = World(gs,None,None)
+    world = World(gs,None,None,100)
 except ValueError:
     world = readWorld(sys.argv[1],World)
 
