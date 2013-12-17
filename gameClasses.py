@@ -253,10 +253,19 @@ class Game(object):
         if self.completedlevels == self.alllevels:
             self.clearprogress()
         
-        self.rendered_text = {
+        
+        titletopper = pygame.Surface((576,140))
+        titletopper.fill(COL_MENUBG)
+        pygame.draw.rect(titletopper,COL_TTOPPER,((0,0),(144,80)))
+        pygame.draw.rect(titletopper,COL_TTOPPER,((144,0),(144,120)))
+        pygame.draw.rect(titletopper,COL_TTOPPER,((288,0),(144,95)))
+        pygame.draw.rect(titletopper,COL_TTOPPER,((432,0),(144,140)))
+        
+        self.rendered_cache = {
                               'livesleft':self.dayfont.render("Echoes Left: ",1,COL_TEXT),
-                              'title': [ self.titlefont.render("Before ",1,COL_TEXT),self.titlefont.render("Night ",1,COL_TEXT),self.titlefont.render("Falls",1,COL_TEXT) ]
-                             }
+                              'title': [ self.titlefont.render("Before ",1,COL_TEXT),self.titlefont.render("Night ",1,COL_TEXT),self.titlefont.render("Falls",1,COL_TEXT) ],
+                              'titletopper': titletopper
+                              }
         
         
         self.sounds = {
@@ -347,11 +356,13 @@ class Game(object):
                 surf.blit(tsurf,self.mainmenu_buttons[button])
             
             
-            xoffset = 576/2 - sum([i.get_width() for i in self.rendered_text['title']])/2
+            surf.blit(self.rendered_cache['titletopper'],(0,0))
             
-            for i,s in enumerate(self.rendered_text['title']):
+            xoffset = 576/2 - sum([i.get_width() for i in self.rendered_cache['title']])/2
+            for i,s in enumerate(self.rendered_cache['title']):
                 surf.blit(s,(xoffset,150+(i*40)))
                 xoffset += s.get_width()
+            
         
         elif self.view == VIEW_END:
             surf.fill(COL_MENUBG)
@@ -373,8 +384,8 @@ class Game(object):
                 surf.blit(self.dayfont.render("Hours Left: %d"%hourleft,1,COL_TEXT),(10,10))
             if gm.curworld.maxlives > 0:
                 livesleft = gm.curworld.maxlives - gm.curplr.generation-1
-                surf.blit(self.rendered_text['livesleft'],(10,25))
-                x = 10+self.rendered_text['livesleft'].get_width()
+                surf.blit(self.rendered_cache['livesleft'],(10,25))
+                x = 10+self.rendered_cache['livesleft'].get_width()
                 y = 25+ self.dayfont.get_ascent()/2 + 6
                 for i in xrange(livesleft):
                     pygame.draw.circle(surf,COL_PLAYER,(x+(i*13),y),6)
