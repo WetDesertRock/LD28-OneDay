@@ -356,6 +356,9 @@ class Game(object):
                 surf.blit(tsurf,self.mainmenu_buttons[button])
             
             
+            prog = self.menufont.render("Progress: %d out of %d levels"%(len(self.completedlevels),len(self.alllevels)),1,COL_TEXT)
+            surf.blit(prog,(50,650))
+            
             surf.blit(self.rendered_cache['titletopper'],(0,0))
             
             xoffset = 576/2 - sum([i.get_width() for i in self.rendered_cache['title']])/2
