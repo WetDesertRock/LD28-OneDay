@@ -2,7 +2,7 @@
     "size": 48,
     "spawnpoint": [3,7],
     "maxhistory": 11,
-    "maxlives": 3,
+    "maxlives": 2,
     "text": [],
     "entities": [
         {
