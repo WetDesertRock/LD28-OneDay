@@ -249,7 +249,7 @@ class Game(object):
         self.mainfont = pygame.font.SysFont("Arial", 16)
         self.dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 18)
         self.menufont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 20)
-        self.titlefont = pygame.font.Font(os.path.join(".","Media","Grundschrift.ttf"), 68)
+        self.titlefont = pygame.font.Font(os.path.join(".","Media","Grundschrift","Grundschrift.ttf"), 68)
         self.view = VIEW_MAINMENU
         self.gm = None
         self.mainmenu_buttons = {
