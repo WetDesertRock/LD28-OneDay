@@ -36,15 +36,23 @@ def readWorld(name, World, gm=None):
         for ent in options["entities"]:
             if ent['type'] == "levelend":
                 LevelFinish(gm,tuple(ent['pos']))
+                
             elif ent['type'] == "switch":
                 Switch(gm,tuple(ent['pos']),ent.get('target',None),ent['oneuse'],ent.get('targetposlist',None))
+                
             elif ent['type'] == "triggerText":
                 pos = ent.get('pos',None)
                 if pos != None:
                     pos = tuple(pos)
-                
-                
+                    
                 TriggerText(gm,ent['text'],ent.get("constant",False),pos, ent.get('newlife',-1))
+                
+            elif ent['type'] == "triggerScreenText":
+                pos = ent.get('pos',None)
+                if pos != None:
+                    pos = tuple(pos)
+                
+                TriggerScreenText(gm,ent['textblocks'],ent.get("constant",False),pos, ent.get('newlife',-1))
     
     with open(os.path.join(WORLDSPATH,name,"grid.txt"),'r') as gridfile:
         for line in gridfile:

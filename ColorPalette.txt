@@ -32,7 +32,7 @@ Stolen from Tetrad:
 *** Complementary Color:
 
    var. 1 = #FF7400 = rgb(255,116,0)
-   var. 2 = #BF7130 = rgb(191,113,48)
+   var. 2 = #BF7130 = rgb(191,113,48) #alert shortcut
    var. 3 = #A64B00 = rgb(166,75,0) # Reset Button #Quit Button
    var. 4 = #FF9640 = rgb(255,150,64)
    var. 5 = #FFB273 = rgb(255,178,115)

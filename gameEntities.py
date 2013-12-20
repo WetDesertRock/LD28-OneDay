@@ -72,6 +72,31 @@ class TriggerText(object):
             self.triggered = True
             self.gm.game.sounds['triggertext'].play()
 
+class TriggerScreenText(object):
+    def __init__(self, gm, textblocks, isconstant, pos=None, newlife=None):
+        self.pos = pos
+        self.newlife = newlife
+        self.gm = gm
+        self.textblocks = textblocks
+        self.constant = isconstant
+        self.triggered = False
+        
+        if pos != None:
+            self.gm.eventManager.registerCallback("plrmove",self.playermove)
+        if newlife != None:
+            self.gm.eventManager.registerCallback("newlife",self.onnewlife)
+    
+    def playermove(self,player,isCurrent):
+        if isCurrent:
+            if self.constant or not self.triggered and player.curpos == self.pos:
+                self.gm.textblocks = self.textblocks
+                self.triggered = True
+    
+    def onnewlife(self,newgen):
+        if self.constant or not self.triggered and newgen == self.newlife:
+            self.gm.textblocks = self.textblocks
+            self.triggered = True
+
 class Switch(object):
     def __init__(self, gm, pos, tpos=None, oneuse=False,tposlist=None):
         self.pos = pos

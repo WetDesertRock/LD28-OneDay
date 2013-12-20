@@ -45,3 +45,10 @@ COL_BTEXT = (92,204,204)
 VIEW_MAINMENU = 0
 VIEW_GAME = 1
 VIEW_END = 2
+
+
+colorShortcuts = {
+                   "black":(0,0,0),
+                   "default":COL_TEXT,
+                   "alert":(191,113,48)
+                  }

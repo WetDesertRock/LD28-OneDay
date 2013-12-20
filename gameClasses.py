@@ -137,10 +137,12 @@ class GameEventManager(object):
         self.eventcallbacks = {}
 
 class GameManager(object):
-    def __init__(self,game,levels,buttonfont):
+    def __init__(self,game,levels,buttonfont,blockfont):
         self.game = game
         self.surf = pygame.Surface((576, 576),pygame.SRCALPHA)
         self.text = []
+        self.textblocks = []
+        self.blockfont = blockfont
         self.eventManager = GameEventManager()
         
         self.levels = levels
@@ -217,6 +219,7 @@ class GameManager(object):
         self.players = [self.curplr]
         
         self.newWorld = setNewWorld
+        self.textblocks = []
         
     def draw(self):
         self.surf.fill((0,0,0))
@@ -239,6 +242,16 @@ class GameManager(object):
         
         self.surf.blit(self.resetbutton_surf,self.resetbutton)
         
+        for tb in self.textblocks:
+            x,y = tb['pos']
+            for line in tb['text']:
+                color = tb.get('color','default').lower()
+                if color in colorShortcuts:
+                    color = colorShortcuts[color]
+                self.surf.blit(self.blockfont.render(line,1,color),(x,y))
+                y += self.blockfont.get_ascent()
+            
+        
     def winlevel(self):
         self.game.winlevel(self.levels[self.worldindex])
         self.loadLevel(True)
@@ -250,6 +263,7 @@ class Game(object):
         self.dayfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 18)
         self.menufont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 20)
         self.titlefont = pygame.font.Font(os.path.join(".","Media","Grundschrift","Grundschrift.ttf"), 68)
+        self.gmblockfont = pygame.font.Font(os.path.join(".","Media","ConsolaMono","ConsolaMono-Bold.ttf"), 14)
         self.view = VIEW_MAINMENU
         self.gm = None
         self.mainmenu_buttons = {
@@ -323,7 +337,7 @@ class Game(object):
     def startgame(self,levels):
         levels = [x for x in self.alllevels if x not in self.completedlevels]
         self.view = VIEW_GAME
-        self.gm = GameManager(self,levels,self.dayfont)
+        self.gm = GameManager(self,levels,self.dayfont,self.gmblockfont)
     
     def winlevel(self,level):
         self.completedlevels.append(level)

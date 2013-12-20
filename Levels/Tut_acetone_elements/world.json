@@ -14,9 +14,20 @@
             "pos": [12,4]
         },
         {
-            "type":"triggerText",
+            "type":"triggerScreenText",
             "pos": [6,11],
-            "text": ["Wait until the day ends"]
+            "textblocks": [
+                            {
+                              "text":["Use the spacebar to wait an hour.","Wait until the day ends by using the spacebar"],
+                              "pos":[108,432],
+                              "color":"alert"
+                             }
+                           ]
+        },
+        {
+            "type":"triggerScreenText",
+            "newlife": 1,
+            "textblocks": []
         },
         {
             "type":"triggerText",
