@@ -21,8 +21,6 @@ from consts import *
 from gameClasses import *
 from worldio import *
 
-# pygame.font.init()
-# pygame.display.init()
 pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
 pygame.init()                      #initialize pygame
 
