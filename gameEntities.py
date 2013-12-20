@@ -20,7 +20,17 @@ from consts import *
 from gameFunctions import *
 
 class Trigger(object):
-    def __init__(self,gm,isconstant=False,triggerpos=None,triggerlife=None):
+    """
+        Basic class for a trigger.
+        Attributes:
+            gm - Game manager
+            constant - If set event will always trigger, if not set trigger is a one shot thing.
+            triggerpos - If used will be the position that the player must go on to trigger this event.
+            triggerlife - If used this must be the life the player is at to trigger the event.
+        
+        Override posTrigger and lifeTrigger with your class methods that will execute for that trigger.
+    """
+    def __init__(self,gm,isconstant=True,triggerpos=None,triggerlife=None):
         self.gm = gm
         self.constant = isconstant
         self.triggered = False
@@ -46,15 +56,22 @@ class Trigger(object):
             self.lifeTrigger(newgen)
     
     def posTrigger(p,i):
-        #Stub, subclass and redefine to make use of this.
+        """
+            Stub; subclass and redefine to make use of this.
+        """
         pass
     
     def lifeTrigger(ng):
-        #Stub, subclass and redefine to make use of this.
+        """
+            Stub; subclass and redefine to make use of this.
+        """
         pass
         
 
 class LevelFinish(Trigger):
+    """
+        Trigger used to determine when the end of the level has been reached.
+    """
     def __init__(self, gm, pos):
         self.pos = pos
         self.gm = gm
@@ -79,6 +96,9 @@ class LevelFinish(Trigger):
     
     
 class TriggerText(Trigger):
+    """
+        Trigger to draw text on the bottom of the screen
+    """
     def __init__(self, gm, text, isconstant, pos=None, newlife=None):
         super(TriggerText,self).__init__(gm,isconstant,pos,newlife)
         self.text = text
@@ -92,6 +112,9 @@ class TriggerText(Trigger):
         self.gm.game.sounds['triggertext'].play()
 
 class TriggerScreenText(Trigger):
+    """
+        Trigger to draw text anywhere on the screen, almost like tool tips.
+    """
     def __init__(self, gm, textblocks, isconstant, pos=None, newlife=None):
         super(TriggerScreenText,self).__init__(gm,isconstant,pos,newlife)
         self.textblocks = textblocks
@@ -103,6 +126,16 @@ class TriggerScreenText(Trigger):
         self.gm.textblocks = self.textblocks
 
 class Switch(object):
+    """
+        Entity used to open up gates and such.
+        Attributes:
+            gm - Game manager
+            pos - Location of the switchpad
+            tpos - Target position that will be opened
+            oneuse - If true, this will get switched on and never go off.
+            tposlist - Alternative to tpos, all locations in this list will get switched.
+        
+    """
     def __init__(self, gm, pos, tpos=None, oneuse=False,tposlist=None):
         self.pos = pos
         self.targetposlist = tposlist
