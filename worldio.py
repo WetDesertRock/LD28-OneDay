@@ -45,14 +45,14 @@ def readWorld(name, World, gm=None):
                 if pos != None:
                     pos = tuple(pos)
                     
-                TriggerText(gm,ent['text'],ent.get("constant",False),pos, ent.get('newlife',-1))
+                TriggerText(gm,ent['text'],ent.get("constant",False),pos, ent.get('newlife',None))
                 
             elif ent['type'] == "triggerScreenText":
                 pos = ent.get('pos',None)
                 if pos != None:
                     pos = tuple(pos)
                 
-                TriggerScreenText(gm,ent['textblocks'],ent.get("constant",False),pos, ent.get('newlife',-1))
+                TriggerScreenText(gm,ent['textblocks'],ent.get("constant",False),pos, ent.get('newlife',None))
     
     with open(os.path.join(WORLDSPATH,name,"grid.txt"),'r') as gridfile:
         for line in gridfile:

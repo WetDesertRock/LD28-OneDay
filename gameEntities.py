@@ -19,17 +19,51 @@ import pygame
 from consts import *
 from gameFunctions import *
 
-class LevelFinish(object):
+class Trigger(object):
+    def __init__(self,gm,isconstant=False,triggerpos=None,triggerlife=None):
+        self.gm = gm
+        self.constant = isconstant
+        self.triggered = False
+        
+        if triggerpos:
+            self.triggerpos = triggerpos
+            self.gm.eventManager.registerCallback("plrmove",self.playermove)
+            
+        if triggerlife:
+            self.triggerlife = triggerlife
+            self.gm.eventManager.registerCallback("newlife",self.onnewlife)
+        
+    
+    def playermove(self,player,isCurrent):
+        if isCurrent:
+            if self.constant or not self.triggered and player.curpos == self.triggerpos:
+                self.triggered = True
+                self.posTrigger(player,isCurrent)
+    
+    def onnewlife(self,newgen):
+        if self.constant or not self.triggered and newgen == self.triggerlife:
+            self.triggered = True
+            self.lifeTrigger(newgen)
+    
+    def posTrigger(p,i):
+        #Stub, subclass and redefine to make use of this.
+        pass
+    
+    def lifeTrigger(ng):
+        #Stub, subclass and redefine to make use of this.
+        pass
+        
+
+class LevelFinish(Trigger):
     def __init__(self, gm, pos):
         self.pos = pos
         self.gm = gm
-        self.gm.eventManager.registerCallback("plrmove",self.playermove)
+        super(LevelFinish,self).__init__(gm, triggerpos=pos)
         self.gm.eventManager.registerCallback("draw",self.draw)
         self.surf = None
         
-    def playermove(self,player,isCurrent):
-        if player.curpos == self.pos:
-            self.gm.winlevel()
+    def posTrigger(self,player,isCurrent):
+        self.gm.winlevel()
     
     def draw(self, surf):
         gs = self.gm.curworld.gridsize
@@ -43,59 +77,30 @@ class LevelFinish(object):
         
         surf.blit(self.surf,getSquareRect(self.pos,gs))
     
-        
-
-class TriggerText(object):
+    
+class TriggerText(Trigger):
     def __init__(self, gm, text, isconstant, pos=None, newlife=None):
-        self.pos = pos
-        self.newlife = newlife
-        self.gm = gm
+        super(TriggerText,self).__init__(gm,isconstant,pos,newlife)
         self.text = text
-        self.constant = isconstant
-        self.triggered = False
-        
-        if pos != None:
-            self.gm.eventManager.registerCallback("plrmove",self.playermove)
-        if newlife != None:
-            self.gm.eventManager.registerCallback("newlife",self.onnewlife)
     
-    def playermove(self,player,isCurrent):
-        if isCurrent:
-            if self.constant or not self.triggered and player.curpos == self.pos:
-                self.gm.text = self.text
-                self.triggered = True
-                self.gm.game.sounds['triggertext'].play()
+    def posTrigger(self,player,isCurrent):
+        self.gm.text = self.text
+        self.gm.game.sounds['triggertext'].play()
     
-    def onnewlife(self,newgen):
-        if self.constant or not self.triggered and newgen == self.newlife:
-            self.gm.text = self.text
-            self.triggered = True
-            self.gm.game.sounds['triggertext'].play()
+    def lifeTrigger(self,newgen):
+        self.gm.text = self.text
+        self.gm.game.sounds['triggertext'].play()
 
-class TriggerScreenText(object):
+class TriggerScreenText(Trigger):
     def __init__(self, gm, textblocks, isconstant, pos=None, newlife=None):
-        self.pos = pos
-        self.newlife = newlife
-        self.gm = gm
+        super(TriggerScreenText,self).__init__(gm,isconstant,pos,newlife)
         self.textblocks = textblocks
-        self.constant = isconstant
-        self.triggered = False
-        
-        if pos != None:
-            self.gm.eventManager.registerCallback("plrmove",self.playermove)
-        if newlife != None:
-            self.gm.eventManager.registerCallback("newlife",self.onnewlife)
     
-    def playermove(self,player,isCurrent):
-        if isCurrent:
-            if self.constant or not self.triggered and player.curpos == self.pos:
-                self.gm.textblocks = self.textblocks
-                self.triggered = True
+    def posTrigger(self,player,isCurrent):
+        self.gm.textblocks = self.textblocks
     
-    def onnewlife(self,newgen):
-        if self.constant or not self.triggered and newgen == self.newlife:
-            self.gm.textblocks = self.textblocks
-            self.triggered = True
+    def lifeTrigger(self,newgen):
+        self.gm.textblocks = self.textblocks
 
 class Switch(object):
     def __init__(self, gm, pos, tpos=None, oneuse=False,tposlist=None):
